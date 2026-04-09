@@ -125,15 +125,52 @@ Full CMT-YOLO configuration used in the main experiments.
 
 ---
 
-## 7.Configuration Files
+6. Configuration Files
+
+The main model configuration files are located in:
+
+ultralytics/cfg/models/v8/
+
+Key files include:
+
+yolov8.yaml
+Original YOLOv8 baseline configuration.
+yolov8-C2f-CPMA.yaml
+YOLOv8 with the C2f-CPMA module.
+yolov8-MSFFB.yaml
+YOLOv8 with the MSFFB module.
+yolov8-TADDH.yaml
+YOLOv8 with the TADDH module.
+cmt-yolo.yaml
+Full CMT-YOLO configuration used in the main experiments.
+
+These configuration files are provided to make the architectural design and ablation settings more transparent and reproducible.
+
+7. Environment
+
+The experiments were conducted in the following environment:
+
+Ubuntu 20.04
 Python 3.10
 PyTorch 2.2.2
 CUDA 11.6
 Ultralytics YOLOv8-based codebase
 
 Dependencies can be installed according to the local environment:
+
 pip install -r requirements.txt
-##8.Datasets
+
+At minimum, the implementation depends on the standard Ultralytics / PyTorch detection environment, including:
+
+Python 3.10
+PyTorch
+torchvision
+Ultralytics
+OpenCV
+NumPy
+PyYAML
+matplotlib
+8. Datasets
 8.1 Industrial transmission-belt defect dataset
 
 The primary dataset used in this work was collected from a real industrial production line in collaboration with an enterprise partner.
@@ -162,9 +199,16 @@ In addition to the self-collected industrial dataset, we also evaluated CMT-YOLO
 
 GC10-DET is a public surface-defect detection benchmark containing 10 classes of steel-surface defects. Since the industrial transmission-belt dataset used in this work cannot be fully released, interested readers may use GC10-DET together with the released code and configuration files to reproduce the public-dataset experiments.
 
-GC10-DET can be downloaded from its public dataset page and organized in YOLO format before training or evaluation.
-##9.Data Format
+GC10-DET can be downloaded from its public dataset page: GC10-DET
+
+Please organize GC10-DET in YOLO format before training or evaluation.
+
+9. Data Format
+
+The codebase expects YOLO-format annotations.
+
 A typical dataset structure is:
+
 dataset_root/
 ├── train/
 │   ├── images/
@@ -175,23 +219,39 @@ dataset_root/
 └── test/
     ├── images/
     └── labels/
-A dataset YAML file should specify the image paths and class names.
-For the transmission-belt dataset, a typical YAML file is:
-A dataset YAML file should specify the image paths and class names.
-For the transmission-belt dataset, a typical YAML file is:
-##10.Training
+
+A dataset YAML file should specify the image paths and class names. For the transmission-belt dataset, a typical YAML file is:
+
+train: /path/to/train/images
+val: /path/to/valid/images
+test: /path/to/test/images
+
+nc: 3
+names: ['broken', 'scratch', 'uneven']
+10. Training
+
+Example training command:
+
 python train.py
+
 Please update the paths inside train.py according to:
+
 dataset YAML path,
 model configuration path,
 project save directory,
 weight initialization policy,
 and device settings.
+
 For fair comparison in the manuscript, the compared models are trained and evaluated under controlled settings, including consistent data split, evaluation criteria, and hardware environment wherever implementation permits.
-##11.Validation
+
+11. Validation
+
 Example validation command:
-Example validation command:
+
+python val.py
+
 The manuscript reports the following evaluation metrics:
+
 Precision (P)
 Recall (R)
 mAP@0.5
@@ -201,41 +261,58 @@ GFLOPs
 Model size
 FPS
 Infer Time / Latency
+
 For statistical reliability, repeated-run results can also be reported as mean ± standard deviation over multiple random seeds.
-##12.Inference
+
+12. Inference
+
 Example inference command:
+
 python detect.py
+
 Please update the weight path and input image path in detect.py before running inference.
-##13.Ablation and Analysis
+
+13. Ablation and Analysis
+
 The released code and configuration files support experiments corresponding to:
+
 baseline comparison,
 single-module ablation,
 two-module and full-model comparison,
 per-class analysis,
 robustness analysis under controlled perturbations,
 and qualitative / failure-case visualization.
+
 The manuscript further analyzes:
+
 why each module works,
 whether the gains are complementary rather than redundant,
 and how the method behaves under different defect characteristics.
-##14.Reproducibility and Availability
+14. Reproducibility and Availability
+
 To improve reproducibility, this repository provides:
+
 the Ultralytics-based implementation,
 custom model configuration files,
 training / validation / inference scripts,
 and detailed configuration organization.
+
 Although the industrial transmission-belt dataset cannot be fully released, the released code and configuration files are intended to make the experimental setup as transparent and reproducible as possible.
+
 The manuscript also clarifies:
+
 dataset split protocol,
 annotation format,
 initialization policy,
 training settings,
 evaluation metrics,
 and software / hardware environment.
+15. Code Availability
+
 The source code, model configuration files, and training / validation scripts for CMT-YOLO are publicly provided in this repository to support reproducibility.
-The industrial transmission-belt defect dataset used in this work is not publicly available due to commercial confidentiality restrictions. However, public-dataset experiments on GC10-DET are included to provide stronger external validation and a practical reproducibility path.
 
+16. Data Availability
 
+The industrial transmission-belt defect dataset used in this work is not publicly available due to commercial confidentiality restrictions.
 
-
-
+However, public-dataset experiments on GC10-DET are included to provide stronger external validation and a practical reproducibility path.
