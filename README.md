@@ -348,16 +348,5 @@ However, public-dataset experiments on GC10-DET are included to provide stronger
 
 ---
 
-## 17. Citation
 
-If you use this repository in your research, please cite the corresponding paper after publication.
-
-```bibtex
-@article{CMTYOLO,
-  title={CMT-YOLO: An Efficient YOLOv8-Based Framework for Low-Contrast Rubber Transmission-Belt Defect Detection},
-  author={To be updated},
-  journal={To be updated},
-  year={To be updated}
-}
-```
 
