@@ -106,7 +106,7 @@ CMT-YOLO achieves the highest mAP@0.5 among the compared methods while maintaini
     ├── solutions/
     ├── trackers/
     └── utils/
-##6.Configuration Files
+## 6.Configuration Files
 Key files include:
 
 yolov8.yaml
@@ -119,6 +119,7 @@ yolov8-TADDH.yaml
 YOLOv8 with the TADDH module.
 cmt-yolo.yaml
 Full CMT-YOLO configuration used in the main experiments.
+---
 ##7.Configuration Files
 Python 3.10
 PyTorch 2.2.2
