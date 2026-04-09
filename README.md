@@ -2,57 +2,52 @@
 
 This repository provides the implementation of **CMT-YOLO**, a lightweight object detector designed for **low-contrast rubber transmission-belt surface defect detection** under industrial conditions.
 
-The method is built upon the YOLOv8 detection pipeline and introduces targeted modifications to the **backbone**, **neck**, and **detection head** to improve weak-defect representation, multi-scale feature interaction, and classification–localization coordination.
+CMT-YOLO is built upon the YOLOv8 detection pipeline and introduces targeted modifications to the **backbone**, **neck**, and **detection head** to improve weak-defect representation, multi-scale feature interaction, and classification–localization coordination.
 
 ---
 
-## Overview
+## 1. Introduction
 
-Rubber transmission-belt defects are difficult to detect in practice because the captured images often exhibit:
+Surface defects on black rubber transmission belts are difficult to detect in real production environments because the captured images often suffer from:
 
 - low contrast between defects and background,
 - repetitive dark textures,
-- weak boundaries,
+- weak and ambiguous boundaries,
 - reflective interference,
-- and large scale variation.
+- and large variation in defect scale and appearance.
 
-To address these challenges, CMT-YOLO introduces three main components:
-
-- **C2f-CPMA**: enhances weak-defect representation by increasing receptive-field diversity while preserving an identity path;
-- **MSFFB**: strengthens lightweight cross-scale feature fusion in the neck;
-- **TADDH**: improves classification–localization coordination through task decomposition, deformable regression alignment, and spatial confidence modulation.
+To address these challenges, this work proposes **CMT-YOLO**, an efficiency-aware redesign of the YOLOv8 detection pipeline for transmission-belt defect detection. Instead of introducing a completely new detection paradigm, the proposed method focuses on **task-oriented modifications** to the backbone, neck, and head, aiming to improve weak-defect representation, cross-scale interaction, and localization reliability while preserving lightweight deployment characteristics.
 
 ---
 
-## Framework
+## 2. Method Overview
 
-<p align="center">
-  <img src="assets/overall_framework.png" width="900"/>
-</p>
+CMT-YOLO introduces three key components:
 
-**Figure 1.** Overall architecture of CMT-YOLO.
+### 2.1 C2f-CPMA
+A backbone enhancement module designed to improve **weak-defect representation** by increasing receptive-field diversity while preserving an explicit identity pathway.
 
-> Please place your framework figure in `assets/overall_framework.png`.
+### 2.2 MSFFB
+A lightweight neck module that strengthens **cross-scale feature interaction** and multi-scale fusion, which is especially important for tiny, elongated, or scale-varying defects.
+
+### 2.3 TADDH
+A task-aligned detection head that improves **classification–localization coordination** through task decomposition, deformable regression alignment, and spatial confidence modulation.
+
+Together, these modules form a balanced lightweight detector for difficult industrial defect scenarios.
 
 ---
 
-## Main Results
+## 3. Main Features
 
-The proposed method achieves a favorable balance between detection accuracy and model efficiency on the transmission-belt defect dataset.
+- YOLOv8-based lightweight redesign for transmission-belt defect detection
+- Enhanced weak-defect representation under low contrast and repetitive textures
+- Lightweight cross-scale fusion for tiny and scale-varying defects
+- Improved task coordination under weak boundaries and reflective interference
+- Support for baseline comparison, ablation, and reproducibility-oriented experiments
 
-| Method | mAP@0.5 (%) | mAP@0.5:0.95 (%) | P (%) | R (%) | Params (M) | GFLOPs | Size (MB) | FPS | Latency (ms) |
-|--------|-------------:|-----------------:|------:|------:|-----------:|-------:|----------:|----:|-------------:|
-| YOLOv5n | 67.3 | 25.2 | 77.2 | 61.6 | 1.76 | 4.1 | 3.7 | 86.7 | 11.5 |
-| YOLOv7 | 67.5 | 19.3 | 59.6 | 58.8 | 36.5 | 103.2 | 141.9 | 41.5 | 24.1 |
-| YOLOv8n | 69.3 | 27.3 | 75.7 | 62.6 | 3.0 | 8.1 | 6.0 | 52.6 | 19.0 |
-| YOLOv10n | 65.7 | 27.2 | 61.7 | 65.4 | 2.3 | 6.5 | 5.5 | 46.3 | 21.6 |
-| YOLOv11n | 68.6 | 26.6 | 79.4 | 62.8 | 2.6 | 6.3 | 5.2 | 76.4 | 13.1 |
-| YOLOv12n | 68.2 | 27.0 | 73.4 | 63.6 | 2.5 | 5.8 | 5.2 | 61.9 | 16.2 |
-| **CMT-YOLO** | **75.4** | **29.0** | **77.6** | **73.5** | **2.1** | **8.5** | **4.4** | **72.7** | **13.7** |
+---
 
-
-##1
-## Main Results
+## 4. Main Results
 
 The following table summarizes the comparison of CMT-YOLO with representative two-stage, one-stage, transformer-based, and YOLO-family detectors on the transmission-belt defect dataset.
 
@@ -75,22 +70,38 @@ The following table summarizes the comparison of CMT-YOLO with representative tw
 | YOLOv12n | 2025 | 68.2 | 73.4 | 63.6 | 2.5 | 5.8 | 5.2 | 61.9 | 16.2 |
 | **CMT-YOLO (Ours)** | **2026** | **75.4** | **84.9** | **69.3** | **2.1** | **8.5** | **4.4** | **72.7** | **13.7** |
 
+CMT-YOLO achieves the highest mAP@0.5 among the compared methods while maintaining competitive model size, inference speed, and latency, demonstrating a favorable balance between detection accuracy and lightweight deployment efficiency.
 
-## Main Results
+---
 
-CMT-YOLO achieves a favorable balance between detection accuracy and efficiency compared with both conventional detectors and recent lightweight baselines.
+## 5. Repository Structure
 
-<p align="center">
-  <img src="assets/main_comparison_table.png" width="1000"/>
-</p>
-
-**Figure 2.** Comparison of CMT-YOLO with representative detection baselines on the transmission-belt defect dataset.
-
-
-
-> If you prefer, this table can also be replaced or supplemented by a figure image placed in `assets/main_results_table.png`.
-
-
-## Repository Structure
-
-
+```text
+.
+├── README.md
+├── .gitignore
+├── requirements.txt
+├── train.py
+├── val.py
+├── detect.py
+├── assets/
+└── ultralytics/
+    ├── __init__.py
+    ├── assets/
+    ├── cfg/
+    │   ├── default.yaml
+    │   └── models/
+    │       └── v8/
+    │           ├── yolov8.yaml
+    │           ├── yolov8-C2f-CPMA.yaml
+    │           ├── yolov8-MSFFB.yaml
+    │           ├── yolov8-TADDH.yaml
+    │           └── cmt-yolo.yaml
+    ├── data/
+    ├── engine/
+    ├── hub/
+    ├── models/
+    ├── nn/
+    ├── solutions/
+    ├── trackers/
+    └── utils/
