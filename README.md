@@ -51,6 +51,31 @@ The proposed method achieves a favorable balance between detection accuracy and 
 | **CMT-YOLO** | **75.4** | **29.0** | **77.6** | **73.5** | **2.1** | **8.5** | **4.4** | **72.7** | **13.7** |
 
 
+##1
+## Main Results
+
+The following table summarizes the comparison of CMT-YOLO with representative two-stage, one-stage, transformer-based, and YOLO-family detectors on the transmission-belt defect dataset.
+
+| Method | Year | mAP@0.5 (%) | P (%) | R (%) | Params (M) | GFLOPs | Size (MB) | FPS | Infer Time (ms) |
+|--------|-----:|------------:|------:|------:|-----------:|-------:|----------:|----:|----------------:|
+| Faster R-CNN | 2015 | 73.4 | – | – | 41.4 | 178.1 | 316.0 | 21.0 | 47.6 |
+| SSD | 2016 | 64.6 | – | – | 24.0 | 30.5 | 99.0 | 66.1 | 15.1 |
+| Cascade R-CNN | 2018 | 72.5 | – | – | 69.2 | 205.1 | 528.0 | 20.1 | 49.8 |
+| DETR | 2020 | 66.6 | – | – | 41.6 | 81.6 | 481.0 | 23.4 | 42.7 |
+| YOLOv5n | 2020 | 70.3 | 77.2 | 66.6 | 1.8 | 4.1 | 3.9 | – | – |
+| TOOD | 2021 | 72.7 | – | – | 32.0 | 168.2 | 244.2 | 18.6 | 53.8 |
+| YOLOX-tiny | 2021 | 62.5 | – | – | 5.0 | 7.6 | 60.0 | 58.2 | 17.2 |
+| DINO | 2022 | 72.5 | – | – | 47.5 | 235.0 | 545.2 | 12.7 | 78.7 |
+| YOLOv7 | 2022 | 57.5 | 59.7 | 60.1 | 36.5 | 103.2 | 141.9 | – | – |
+| RTMDet-tiny | 2022 | 74.5 | – | – | 4.9 | 8.0 | 80.0 | 64.2 | 15.6 |
+| DDQ-DETR | 2023 | 74.3 | – | – | 48.3 | 236.0 | 557.4 | 9.8 | 102.0 |
+| RT-DETR (r50vd) | 2023 | 68.1 | – | – | 42.9 | 102.4 | 164.0 | 11.8 | 84.0 |
+| YOLOv8n (Baseline) | 2023 | 69.3 | 75.8 | 62.6 | 3.0 | 8.1 | 6.0 | 52.6 | 19.0 |
+| RT-DETRv2 (r50vd) | 2024 | 75.9 | – | – | 34.0 | 78.6 | 164.0 | 17.6 | 57.0 |
+| YOLOv12n | 2025 | 68.2 | 73.4 | 63.6 | 2.5 | 5.8 | 5.2 | 61.9 | 16.2 |
+| **CMT-YOLO (Ours)** | **2026** | **75.4** | **84.9** | **69.3** | **2.1** | **8.5** | **4.4** | **72.7** | **13.7** |
+
+
 ## Main Results
 
 CMT-YOLO achieves a favorable balance between detection accuracy and efficiency compared with both conventional detectors and recent lightweight baselines.
@@ -65,7 +90,6 @@ CMT-YOLO achieves a favorable balance between detection accuracy and efficiency 
 
 > If you prefer, this table can also be replaced or supplemented by a figure image placed in `assets/main_results_table.png`.
 
----
 
 ## Repository Structure
 
