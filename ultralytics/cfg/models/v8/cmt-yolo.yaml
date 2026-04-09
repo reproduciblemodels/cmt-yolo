@@ -1,0 +1,57 @@
+# 融合TADDH的多尺度传递与MSFFB的特征聚焦，统一检测头通道为512
+# Ultralytics YOLO 🚀, AGPL-3.0 license
+# YOLOv8 object detection model with P3-P5 outputs. For Usage examples see https://docs.ultralytics.com/tasks/detect
+
+# Parameters
+nc: 3  # number of classes
+scales: # model compound scaling constants, i.e. 'model=yolov8n.yaml' will call yolov8.yaml with scale 'n'
+  # [depth, width, max_channels]
+  n: [0.33, 0.25, 1024]  # YOLOv8n summary: 225 layers,  3157200 parameters,  3157184 gradients,   8.9 GFLOPs
+  s: [0.33, 0.50, 1024]  # YOLOv8s summary: 225 layers, 11166560 parameters, 11166544 gradients,  28.8 GFLOPs
+  m: [0.67, 0.75, 768]   # YOLOv8m summary: 295 layers, 25902640 parameters, 25902624 gradients,  79.3 GFLOPs
+  l: [1.00, 1.00, 512]   # YOLOv8l summary: 365 layers, 43691520 parameters, 43691504 gradients, 165.7 GFLOPs
+  x: [1.00, 1.25, 512]   # YOLOv8x summary: 365 layers, 68229648 parameters, 68229632 gradients, 258.5 GFLOPs
+
+
+
+# 骨干网络
+backbone:
+  # [from, repeats, module, args]
+  - [-1, 1, Conv, [64, 3, 2]]  # 0-P1/2（64通道）
+  - [-1, 1, Conv, [128, 3, 2]]  # 1-P2/4（128通道）
+  - [-1, 3, C2f, [128, True]]  # 2（128通道）
+  - [-1, 1, Conv, [256, 3, 2]]  # 3-P3/8（256通道，下采样）
+  - [-1, 6, C2f, [256, True]]  # 4-P3/8输出（256通道，backbone P3特征）
+  - [-1, 1, Conv, [512, 3, 2]]  # 5-P4/16（512通道，下采样）
+  - [-1, 6, C2f_CPMA, [512, True]]  # 6-P4/16输出（512通道，backbone P4特征）
+  - [-1, 1, Conv, [1024, 3, 2]]  # 7-P5/32（1024通道，下采样）
+  - [-1, 3, C2f_CPMA, [1024, True]]  # 8（1024通道）
+  - [-1, 1, SPPF, [1024, 5]]  # 9-P5/32输出（1024通道，backbone P5特征）
+
+# 颈部+头部（融合TADDH与MSFFB，统一通道为512）
+head:
+  # 第一阶段：MSFFB特征聚焦（融合backbone的P3/P4/P5）
+  - [[9, 6, 4], 1, FocusFeature, []]  # 10-P4基准特征（融合P5/P4/P3初始特征）
+  - [-1, 1, Conv, [512, 1, 1]]  # 11-压缩至512通道（统一基准通道）
+
+  # 第二阶段：TADDH上采样路径（构建P3特征）
+  - [11, 1, nn.Upsample, [None, 2, 'nearest']]  # 12-上采样至P3尺度（512通道）
+  - [[-1, 4], 1, Concat, [1]]  # 13-拼接backbone P3（512+256=768通道）
+  - [-1, 1, Conv, [512, 1, 1]]  # 14-压缩至512通道（关键：统一中间通道）
+  - [-1, 3, C2f, [512]]  # 15-P3/8-small（输出512通道，小目标检测层）
+
+  # 第三阶段：TADDH下采样路径1（构建P5特征）
+  - [11, 1, Conv, [512, 3, 2]]  # 16-下采样至P5尺度（512通道）
+  - [[-1, 9], 1, Concat, [1]]  # 17-拼接backbone P5（512+1024=1536通道）
+  - [-1, 1, Conv, [512, 1, 1]]  # 18-压缩至512通道
+  - [-1, 3, C2f, [512]]  # 19-P5/32-large（输出512通道，大目标检测层）
+
+  # 第四阶段：TADDH下采样路径2（构建P4特征）
+  - [15, 1, Conv, [512, 3, 2]]  # 20-从P3下采样至P4尺度（512通道）
+  - [[-1, 11], 1, Concat, [1]]  # 21-拼接P4基准特征（512+512=1024通道）
+  - [-1, 1, Conv, [512, 1, 1]]  # 22-压缩至512通道
+  - [-1, 3, C2f, [512]]  # 23-P4/16-medium（输出512通道，中目标检测层）
+
+  # 检测头（输入均为512通道，匹配Detect_TADDH要求）
+  - [[15, 23, 19], 1, Detect_TADDH, [nc, 512]]  # 24-多尺度检测（P3/P4/P5）
+
