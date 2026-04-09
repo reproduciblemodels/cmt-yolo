@@ -50,39 +50,23 @@ The proposed method achieves a favorable balance between detection accuracy and 
 | YOLOv12n | 68.2 | 27.0 | 73.4 | 63.6 | 2.5 | 5.8 | 5.2 | 61.9 | 16.2 |
 | **CMT-YOLO** | **75.4** | **29.0** | **77.6** | **73.5** | **2.1** | **8.5** | **4.4** | **72.7** | **13.7** |
 
+
+## Main Results
+
+CMT-YOLO achieves a favorable balance between detection accuracy and efficiency compared with both conventional detectors and recent lightweight baselines.
+
+<p align="center">
+  <img src="assets/main_comparison_table.png" width="1000"/>
+</p>
+
+**Figure 2.** Comparison of CMT-YOLO with representative detection baselines on the transmission-belt defect dataset.
+
+
+
 > If you prefer, this table can also be replaced or supplemented by a figure image placed in `assets/main_results_table.png`.
 
 ---
 
 ## Repository Structure
 
-```text
-.
-├── README.md
-├── .gitignore
-├── train.py
-├── val.py
-├── detect.py
-├── assets/
-│   └── overall_framework.png
-└── ultralytics/
-    ├── __init__.py
-    ├── assets/
-    ├── cfg/
-    │   ├── default.yaml
-    │   └── models/
-    │       ├── v8/
-    │       │   ├── yolov8.yaml
-    │       │   ├── yolov8-C2f-CPMA.yaml
-    │       │   ├── yolov8-MSFFB.yaml
-    │       │   └── yolov8-TADDH.yaml
-    │       └── test/
-    │           └── CPMAMSFFB-TADDH.yaml
-    ├── data/
-    ├── engine/
-    ├── hub/
-    ├── models/
-    ├── nn/
-    ├── solutions/
-    ├── trackers/
-    └── utils/
+
