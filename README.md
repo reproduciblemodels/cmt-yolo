@@ -16,7 +16,7 @@ Surface defects on black rubber transmission belts are difficult to detect in re
 - reflective interference,
 - and large variation in defect scale and appearance.
 
-To address these challenges, this work proposes **CMT-YOLO**, an efficiency-aware redesign of the YOLOv8 detection pipeline for transmission-belt defect detection. Instead of introducing a completely new detection paradigm, the proposed method focuses on **task-oriented modifications** to the backbone, neck, and head, aiming to improve weak-defect representation, cross-scale interaction, and localization reliability while preserving lightweight deployment characteristics.
+To address these challenges, this work proposes **CMT-YOLO**, an efficiency-aware redesign of the YOLOv8 detection pipeline for transmission-belt defect detection. Rather than introducing a completely new detection paradigm, the proposed method focuses on **task-oriented modifications** to the backbone, neck, and head, aiming to improve weak-defect representation, cross-scale interaction, and localization reliability while preserving lightweight deployment characteristics.
 
 ---
 
@@ -37,13 +37,13 @@ Together, these modules form a balanced lightweight detector for difficult indus
 
 ---
 
-## 3. Main Features
+## 3. Framework
 
-- YOLOv8-based lightweight redesign for transmission-belt defect detection
-- Enhanced weak-defect representation under low contrast and repetitive textures
-- Lightweight cross-scale fusion for tiny and scale-varying defects
-- Improved task coordination under weak boundaries and reflective interference
-- Support for baseline comparison, ablation, and reproducibility-oriented experiments
+<p align="center">
+  <img src="assets/overall_framework.png" width="900"/>
+</p>
+
+**Figure 1.** Overall architecture of CMT-YOLO.
 
 ---
 
@@ -85,6 +85,7 @@ CMT-YOLO achieves the highest mAP@0.5 among the compared methods while maintaini
 ├── val.py
 ├── detect.py
 ├── assets/
+│   └── overall_framework.png
 └── ultralytics/
     ├── __init__.py
     ├── assets/
